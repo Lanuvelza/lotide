@@ -37,12 +37,14 @@ const eqObjects = function(object1, object2) {
   }
   
   for (let key of key1) {
-    if (Array.isArray(object1[key]) && Array.isArray(object2[key])) {
-      boolean = eqArrays(object1[key], object2[key]);
-    } else if (object1[key] !== object2[key] && object1[key].length !== object2[key].length) {
-      boolean = false;
+      if(!key2.includes(key)){
+        boolean = false; 
+      }else if (Array.isArray(object1[key]) && Array.isArray(object2[key])) {
+        boolean = eqArrays(object1[key], object2[key]);
+      } else if (object1[key] !== object2[key] && object1[key].length !== object2[key].length) {
+        boolean = false;
+      }
     }
-  }
   return boolean;
 };
 
