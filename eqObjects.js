@@ -37,14 +37,15 @@ const eqObjects = function(object1, object2) {
   }
   
   for (let key of key1) {
-      if(!key2.includes(key)){
+      if(!(key2.includes(key))){
         boolean = false; 
       }else if (Array.isArray(object1[key]) && Array.isArray(object2[key])) {
         boolean = eqArrays(object1[key], object2[key]);
-      } else if (object1[key] !== object2[key] && object1[key].length !== object2[key].length) {
+      } else if (object1[key] !== object2[key]) {
         boolean = false;
       }
     }
+
   return boolean;
 };
 
@@ -61,3 +62,13 @@ assertEqual(eqObjects(cd, dc), true); // => true
 
 const cd2 = { c: "1", d: ["2", 3, 4] };
 assertEqual(eqObjects(cd, cd2), false); // => false
+
+const fg = { f: "1", g: "2" };
+const gf = { f: "2", g: "2" };
+assertEqual(eqObjects(fg, gf), false); // => false
+
+assertEqual(eqObjects(ab,fg), false);
+
+// if the keys are the same (not just the length)
+// check if the value of one key is different even though its the same key as the other 
+
