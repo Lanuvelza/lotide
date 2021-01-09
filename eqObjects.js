@@ -15,7 +15,9 @@ const eqArrays = function(arr1, arr2) {
   if (arr1.length === arr2.length) {
     boolean = true;
     for (let i = 0; i < arr1.length; i++) {
-      if (arr1[i] === arr2[i]) {
+      if(Array.isArray(arr1[i]) && Array.isArray(arr2[i])) {
+        boolean = eqArrays(arr1[i],arr2[i]); 
+      } else if (arr1[i] === arr2[i]) {
         boolean = true;
       } else {
         return false;
@@ -24,7 +26,6 @@ const eqArrays = function(arr1, arr2) {
   }
   return boolean;
 };
-
 // Returns true if both objects have identical keys with identical values.
 // Otherwise you get back a big fat false!
 const eqObjects = function(object1, object2) {
@@ -37,7 +38,9 @@ const eqObjects = function(object1, object2) {
   }
   
   for (let key of key1) {
-      if(!(key2.includes(key))){
+      if(object1[key] instanceof Object && object2[key] instanceof Object){
+        boolean = eqObjects(object1[key], object2[key]);
+      } else if(!(key2.includes(key))){
         boolean = false; 
       }else if (Array.isArray(object1[key]) && Array.isArray(object2[key])) {
         boolean = eqArrays(object1[key], object2[key]);
@@ -71,4 +74,11 @@ assertEqual(eqObjects(ab,fg), false);
 
 // if the keys are the same (not just the length)
 // check if the value of one key is different even though its the same key as the other 
+
+assertEqual(eqObjects({ a: { z: 1 }, b: 2 }, { a: { z: 1 }, b: 2 }) , true); 
+assertEqual(eqObjects({ a: { y: 0, z: 1 }, b: 2 }, { a: { z: 1 }, b: 2 }), false); 
+assertEqual(eqObjects({ a: { y: 0, z: 1 }, b: 2 }, { a: 1, b: 2 }), false);
+assertEqual(eqObjects({ a: { z: [4, 5, 6] }, b: 2 }, { a: { z: 1 }, b: 2 }) , false); 
+assertEqual(eqObjects({ a: { z: [4, 5, 6] }, b: 2 }, { a: [2, 3]}) , false); 
+
 
