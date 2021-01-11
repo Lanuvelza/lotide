@@ -1,28 +1,30 @@
-const assertEqual = require('../assertEqual');
+const assert = require('chai').assert;
 const tail = require('../tail');
 
 // Test code for tail
-let result = tail(["Hello", "Lighthouse", "Labs"]);
-assertEqual(result.length, 2);
-assertEqual(result[0], "Lighthouse");
-assertEqual(result[1], "Labs");
+describe("#tail", () => {
 
-result = tail([1,2,3,4]);
-assertEqual(result.length, 3);
-assertEqual(result[0], 2);
-assertEqual(result[1], 3);
-assertEqual(result[2], 4);
+  it("returns ['Lighthouse', 'Labs'] for ['Hello', 'Lighthouse', 'Labs']", () => {
+    assert.deepEqual(tail(["Hello", "Lighthouse", "Labs"]), ["Lighthouse", "Labs"]);
+  });
 
-result = tail([]);
-assertEqual(result.length, 0);
-assertEqual(result[0], undefined);
+  it("returns [2, 3, 4] for [1, 2, 3, 4]", () => {
+    assert.deepEqual(tail([1, 2, 3, 4]), [2, 3, 4]);
+  });
 
-result = tail([1]);
-assertEqual(result.length, 0);
-assertEqual(result[0], undefined);
+  it("returns [] for []", () => {
+    assert.deepEqual(tail([]), []);
+  });
 
+  it("returns [] for [1]", () => {
+    assert.deepEqual(tail([1]), []);
+  });
 
-// Tests to see the original array is unchanged
-const words = ["Yo Yo", "Lighthouse", "Labs"];
-tail(words);
-assertEqual(words.length, 3);
+  it("checks to see that the original array remains unchanged", () => {
+    const words = ["Yo Yo", "Lighthouse", "Labs"];
+    tail(words);
+    assert.strictEqual(words.length, 3);
+    assert.deepEqual(words, ["Yo Yo", "Lighthouse", "Labs"]);    
+  });
+  
+});
