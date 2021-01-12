@@ -1,7 +1,6 @@
 const assertObjectsEqual = require('../assertObjectsEqual');
 
 // Test cases for assertObjectsEqualTest
-
 const obj1 = {
   a: 1,
   b: 2
